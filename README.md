@@ -127,7 +127,7 @@ app.py → highlight_text()
 1. Clone the repository:
 
 ```
-git clone <YOUR_REPO_URL>
+git clone https://github.com/Diegao17/my-search-engine.git
 cd my-search-engine
 ```
 
