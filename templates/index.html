@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Video Game Search Engine</title>
+
+    <!-- Fuente PRO -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}?v=5">
+</head>
+<body class="{% if query %}active{% endif %}">
+
+<div class="container">
+
+    <h1 class="title">VideoGaMex</h1>
+
+    <form method="POST" class="search-form" id="searchForm">
+        <input 
+            type="text" 
+            name="query" 
+            placeholder="Search video games..." 
+            value="{{ query }}"
+            id="searchInput"
+            autocomplete="off"
+        >
+        <button type="submit">Search</button>
+    </form>
+
+    <!-- Loader -->
+    <div class="loader" id="loader"></div>
+
+    <!-- CONTENIDO -->
+    <div class="content">
+
+        <div class="stats">
+            <span><strong>Documents:</strong> {{ total_docs }}</span>
+            <span><strong>Vocabulary:</strong> {{ vocab_size }}</span>
+            <span><strong>Time:</strong> {{ search_time }}s</span>
+        </div>
+
+        <div class="results">
+            {% if results and results|length > 0 %}
+                {% for r in results %}
+                    <div class="result-item">
+                        <h3>{{ r.title }}</h3>
+                        <p>{{ r.text | safe }}</p>
+                        <p class="score">Score: {{ r.score }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="no-results">
+                    ❌ No results for "<strong>{{ query }}</strong>"
+                </div>
+            {% endif %}
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+const input = document.getElementById("searchInput");
+const form = document.getElementById("searchForm");
+const loader = document.getElementById("loader");
+
+input.addEventListener("focus", () => {
+    document.body.classList.add("active");
+});
+
+// Mostrar loader al buscar
+form.addEventListener("submit", () => {
+    loader.classList.add("show");
+});
+</script>
+
+</body>
+</html>
